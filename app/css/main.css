@@ -33,6 +33,14 @@ p {
   padding-top: 60px;
 }
 
+.app--hidden,
+.game--hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease-in-out,
+  visibility .5s ease-in-out;
+}
+
 .container {
   height: 100%;
   width: 600px;

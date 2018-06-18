@@ -2,7 +2,10 @@ const ipcRenderer = require('electron').ipcRenderer;
 
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = document.querySelectorAll('.btn-game'),
-    closeBtn = document.getElementById('close');
+    closeBtn = document.getElementById('close'),
+    app = document.querySelector('.app');
+
+    app.classList.remove('app--hidden');
 
   buttons.forEach((button) => {
     button.addEventListener('click', (event) => {
