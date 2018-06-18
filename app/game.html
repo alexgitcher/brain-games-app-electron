@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>{game title}</title>
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <article class="game">
+    <div class="container game__container">
+      <h1 id="game-title" class="game__title">{game title}</h1>
+      <p id="game-rule" class="game__rule">{game rule}</p>
+      <p class="game__round">Round
+        <span id="current-round"></span> from
+        <span id="rounds"></span>
+      </p>
+      <div id="game-content" class="game__content">
+        <p class="game__question">Question:
+          <span id="game-question"></span>
+        </p>
+        <p class="game__answer">Answer:
+          <input type="text" id="answer">
+        </p>
+      </div>
+      <div class="game__controls">
+        <button type="button" id="check-answer" class="btn">Check answer</button>
+        <button type="button" id="next-round" class="btn">Next round</button>
+      </div>
+      <p id="message" class="game__message"></p>
+      <button type="button" id="play-again" class="btn">Play again</button>
+      <button type="button" id="back-to-games" class="btn btn__back">Back to games</button>
+      <button type="button" id="close" class="btn btn__close">Close</button>
+    </div>
+  </article>
+  <script src="js/game-page.js"></script>
+  <script src="js/game-engine.js"></script>
+  <script>
+    const gameSrc = currentWindow.gameId,
+    gamePath = `js/games/${gameSrc}.js`;
+
+    document.write("<script src=" + gamePath + ">\<\/script>");
+  </script>
+</body>
+
+</html>
