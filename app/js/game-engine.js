@@ -97,9 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   playAgainBtn.addEventListener('click', () => {
     gameEngine(gameData);
+    round = 1;
     hideElements(playAgainBtn, nextRoundBtn);
     restartContent();
-    round = 1;
   });
 
 });
