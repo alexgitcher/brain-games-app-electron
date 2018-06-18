@@ -18,7 +18,7 @@ const createWindow = () => {
   });
 
   mainWindow.gameRules = {
-    "game-even": "Answer 'yes' if number even otherwise answer 'no'.",
+    "game-even": "Answer 'yes' if number is even otherwise the answer is 'no'.",
     "game-calc": "What is the result of the expression?",
     "game-gcd": "Find the greatest common divisor of given numbers.",
     "game-balance": "Balance the given number.",

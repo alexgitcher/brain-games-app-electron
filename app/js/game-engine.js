@@ -1,9 +1,8 @@
-const generateNumber = num => Math.random() * num;
+let round = 1, rightAnswer;
 
-let round = 1,
-  answerOutside;
-
-const maxRounds = 3;
+const maxRounds = 3,
+  generateNumber = num => Math.random() * num,
+  hideElements = (...elements) => elements.forEach((element) => element.style.display = 'none');
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -17,70 +16,69 @@ document.addEventListener('DOMContentLoaded', () => {
     nextRoundBtn = document.getElementById('next-round'),
     playAgainBtn = document.getElementById('play-again');
 
-  checkAnswerBtn.style.display = 'none';
-  nextRoundBtn.style.display = 'none';
-  playAgainBtn.style.display = 'none';
+  const restartContent = () => {
+    gameContent.style.display = 'block';
+    messageNode.textContent = '';
+    currentRoundNode.textContent = round;
+    answerNode.value = '';
+    answerNode.focus();
+  };
+
+  hideElements(checkAnswerBtn, nextRoundBtn, playAgainBtn);
 
   currentRoundNode.textContent = round;
   rounds.textContent = maxRounds;
 
   answerNode.focus();
 
-  // const greeting = 'Welcome to the Brain Games!';
-
   const gameEngine = gameData => {
     const gameCondition = gameData(),
       quest = gameCondition.question,
       correctResult = gameCondition.correctAnswer;
 
-    answerOutside = correctResult;
+    rightAnswer = correctResult;
     questionNode.textContent = quest;
   };
 
   gameEngine(gameData);
 
   const checkAnswer = (answer, correctAnswer, round) => {
-    if (round < maxRounds) {
-
-      if (answer === correctAnswer) {
-        checkAnswerBtn.style.display = 'none';
+    if (answer === correctAnswer) {
+      if (round < maxRounds) {
+        hideElements(checkAnswerBtn, gameContent);
         nextRoundBtn.style.display = 'inline-block';
-        messageNode.textContent = 'Correct!';
+        nextRoundBtn.focus();
         answerNode.value = '';
-        answerNode.setAttribute('disabled', 'disabled');
+        messageNode.textContent = 'Correct!';
       } else {
-        messageNode.textContent = `"${answer}" is wrong answer ;(. Correct answer was "${correctAnswer}".`;
-        gameContent.style.display = 'none';
-        nextRoundBtn.style.display = 'none';
-        checkAnswerBtn.style.display = 'none';
+        hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
         playAgainBtn.style.display = 'inline-block';
+        playAgainBtn.focus();
+        messageNode.textContent = 'Congratulations, you win!';
       }
-
     } else {
-      gameContent.style.display = 'none';
-      nextRoundBtn.style.display = 'none';
-      checkAnswerBtn.style.display = 'none';
+      hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
       playAgainBtn.style.display = 'inline-block';
-      messageNode.textContent = 'Congratulations, you\'re win!';
+      playAgainBtn.focus();
+      messageNode.textContent = `"${answer}" is wrong answer ;(. Correct answer was "${correctAnswer}".`;
     }
   };
 
   checkAnswerBtn.addEventListener('click', () => {
     answer = answerNode.value;
-    checkAnswer(answer, answerOutside, round);
+    checkAnswer(answer, rightAnswer, round);
     round += 1;
   });
 
-
-  answerNode.addEventListener('keydown', (event) => {
+  answerNode.addEventListener('keypress', (event) => {
     if (event.which === 13) {
       answer = answerNode.value;
-      checkAnswer(answer, answerOutside, round);
+      checkAnswer(answer, rightAnswer, round);
       round += 1;
     }
   });
 
-  answerNode.addEventListener('input', (event) => {
+  answerNode.addEventListener('input', () => {
     const value = answerNode.value,
       valueLength = value.length;
 
@@ -93,24 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   nextRoundBtn.addEventListener('click', () => {
     gameEngine(gameData);
-    answerNode.value = '';
-    answerNode.removeAttribute('disabled');
-    messageNode.textContent = '';
-    currentRoundNode.textContent = round;
+    restartContent();
     nextRoundBtn.style.display = 'none';
   });
 
   playAgainBtn.addEventListener('click', () => {
     gameEngine(gameData);
+    hideElements(playAgainBtn, nextRoundBtn);
+    restartContent();
     round = 1;
-    playAgainBtn.style.display = 'none';
-    nextRoundBtn.style.display = 'none';
-    checkAnswerBtn.style.display = 'inline-block';
-    gameContent.style.display = 'block';
-    messageNode.textContent = '';
-    answerNode.value = '';
-    currentRoundNode.textContent = round;
   });
-
 
 });
