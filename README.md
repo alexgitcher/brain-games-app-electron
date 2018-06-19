@@ -1,4 +1,4 @@
-# brain-games-app-electron
+# Brain games app
 Brain games app build on Electron framework
 
 ## Install dependencies

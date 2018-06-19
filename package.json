@@ -12,6 +12,7 @@
   ],
   "author": "",
   "license": "MIT",
+  "productName": "Brain games app",
   "devDependencies": {
     "electron": "^2.0.2"
   }
