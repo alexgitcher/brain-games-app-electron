@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   answerNode.addEventListener('keypress', (event) => {
     if (event.which === 13) {
-      answer = answerNode.value;
-      checkAnswer(answer, rightAnswer, round);
-      round += 1;
+      checkAnswerBtn.click();
+      return;
     }
   });
 
