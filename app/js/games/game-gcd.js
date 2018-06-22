@@ -14,8 +14,8 @@ const greatestCommonDivisor = (num1, num2) => {
 };
 
 const gameData = () => {
-  const num1 = Math.ceil(generateNumber(100)),
-    num2 = Math.ceil(generateNumber(100)),
+  const num1 = Math.ceil(model.generateNumber(100)),
+    num2 = Math.ceil(model.generateNumber(100)),
     question = `${num1} ${num2}`,
     correctAnswer = greatestCommonDivisor(num1, num2);
   return {

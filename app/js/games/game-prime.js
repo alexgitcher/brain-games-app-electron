@@ -9,7 +9,7 @@ const isPrime = (num) => {
 };
 
 const gameData = () => {
-  const number = Math.ceil(generateNumber(100)),
+  const number = Math.ceil(model.generateNumber(100)),
     question = number,
     correctAnswer = isPrime(number) ? 'yes' : 'no';
   return { question, correctAnswer };

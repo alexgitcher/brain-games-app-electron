@@ -23,7 +23,7 @@ const numBalance = (num) => {
 };
 
 const gameData = () => {
-  const num = Math.ceil(generateNumber(10000)),
+  const num = Math.ceil(model.generateNumber(10000)),
     question = num,
     correctAnswer = numBalance(num);
   return {

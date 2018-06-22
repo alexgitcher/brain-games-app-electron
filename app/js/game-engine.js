@@ -1,104 +1,129 @@
-let round = 1, rightAnswer;
+const answerNode = document.getElementById('answer'),
+  messageNode = document.getElementById('message'),
+  gameContent = document.getElementById('game-content'),
+  checkAnswerBtn = document.getElementById('check-answer'),
+  nextRoundBtn = document.getElementById('next-round'),
+  playAgainBtn = document.getElementById('play-again');
 
-const maxRounds = 3,
-  generateNumber = num => Math.random() * num,
-  hideElements = (...elements) => elements.forEach((element) => element.style.display = 'none');
+const model = {
+  round: 1,
+  maxRounds: 3,
+  rightAnswer: '',
 
-document.addEventListener('DOMContentLoaded', () => {
+  generateNumber: (num) => Math.random() * num,
 
-  const questionNode = document.getElementById('game-question'),
-    messageNode = document.getElementById('message'),
-    answerNode = document.getElementById('answer'),
-    gameContent = document.getElementById('game-content'),
-    currentRoundNode = document.getElementById('current-round'),
-    rounds = document.getElementById('rounds'),
-    checkAnswerBtn = document.getElementById('check-answer'),
-    nextRoundBtn = document.getElementById('next-round'),
-    playAgainBtn = document.getElementById('play-again');
-
-  const restartContent = () => {
-    gameContent.style.display = 'block';
-    messageNode.textContent = '';
-    currentRoundNode.textContent = round;
-    answerNode.value = '';
-    answerNode.focus();
-  };
-
-  hideElements(checkAnswerBtn, nextRoundBtn, playAgainBtn);
-
-  currentRoundNode.textContent = round;
-  rounds.textContent = maxRounds;
-
-  answerNode.focus();
-
-  const gameEngine = gameData => {
+  gameEngine: (gameData) => {
     const gameCondition = gameData(),
       quest = gameCondition.question,
       correctResult = gameCondition.correctAnswer;
 
-    rightAnswer = correctResult;
-    questionNode.textContent = quest;
-  };
+    model.rightAnswer = correctResult;
+    view.showQuestion(quest);
+  },
 
-  gameEngine(gameData);
-
-  const checkAnswer = (answer, correctAnswer, round) => {
+  checkAnswer: (answer, correctAnswer) => {
     if (answer === correctAnswer) {
-      if (round < maxRounds) {
-        hideElements(checkAnswerBtn, gameContent);
-        nextRoundBtn.style.display = 'inline-block';
-        nextRoundBtn.focus();
-        answerNode.value = '';
-        messageNode.textContent = 'Correct!';
-      } else {
-        hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
-        playAgainBtn.style.display = 'inline-block';
-        playAgainBtn.focus();
-        messageNode.textContent = 'Congratulations, you win!';
-      }
-    } else {
-      hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
+      view.hideElements(checkAnswerBtn, gameContent);
+      nextRoundBtn.style.display = 'inline-block';
+      nextRoundBtn.focus();
+      answerNode.value = '';
+      view.displayMessage('Correct!');
+
+      return true;
+    }
+
+    view.hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
+    playAgainBtn.style.display = 'inline-block';
+    playAgainBtn.focus();
+    view.displayMessage(`"${answer}" is wrong answer ;(. Correct answer was "${correctAnswer}".`);
+
+    return false;
+  }
+};
+
+const view = {
+  displayMessage: (message) => {
+    messageNode.textContent = message;
+  },
+
+  hideElements: (...elements) => elements.forEach((element) => element.style.display = 'none'),
+
+  showContent: () => {
+    gameContent.style.display = 'block';
+    messageNode.textContent = '';
+    answerNode.value = '';
+    answerNode.focus();
+  },
+
+  showQuestion: (quest) => {
+    const questionNode = document.getElementById('game-question');
+    questionNode.textContent = quest;
+  },
+
+  showRounds: () => {
+    const currentRoundNode = document.getElementById('current-round'),
+      rounds = document.getElementById('rounds');
+
+    currentRoundNode.textContent = model.round;
+    rounds.textContent = model.maxRounds;
+  }
+};
+
+const controller = {
+  processAnswer: (answer) => {
+    const isRightAnswer = model.checkAnswer(answer, model.rightAnswer);
+
+    if (isRightAnswer && model.round === model.maxRounds) {
+      view.hideElements(gameContent, nextRoundBtn, checkAnswerBtn);
       playAgainBtn.style.display = 'inline-block';
       playAgainBtn.focus();
-      messageNode.textContent = `"${answer}" is wrong answer ;(. Correct answer was "${correctAnswer}".`;
+      view.displayMessage('Congratulations, you win!');
     }
-  };
+  }
+};
 
-  checkAnswerBtn.addEventListener('click', () => {
-    answer = answerNode.value;
-    checkAnswer(answer, rightAnswer, round);
-    round += 1;
-  });
+checkAnswerBtn.addEventListener('click', () => {
+  answer = answerNode.value;
+  controller.processAnswer(answer);
+  model.round += 1;
+});
 
-  answerNode.addEventListener('keypress', (event) => {
-    if (event.which === 13) {
-      checkAnswerBtn.click();
-      return;
-    }
-  });
+answerNode.addEventListener('keypress', (event) => {
+  if (event.which === 13) {
+    checkAnswerBtn.click();
+    return;
+  }
+});
 
-  answerNode.addEventListener('input', () => {
-    const value = answerNode.value,
-      valueLength = value.length;
+answerNode.addEventListener('input', () => {
+  const value = answerNode.value,
+    valueLength = value.length;
 
-    if (valueLength > 0) {
-      checkAnswerBtn.style.display = 'inline-block';
-    } else {
-      checkAnswerBtn.style.display = 'none';
-    }
-  });
+  if (valueLength > 0) {
+    checkAnswerBtn.style.display = 'inline-block';
+  } else {
+    view.hideElements(checkAnswerBtn);
+  }
+});
 
-  nextRoundBtn.addEventListener('click', () => {
-    gameEngine(gameData);
-    restartContent();
-    nextRoundBtn.style.display = 'none';
-  });
+nextRoundBtn.addEventListener('click', () => {
+  model.gameEngine(gameData);
+  view.showRounds();
+  view.showContent();
+  view.hideElements(nextRoundBtn);
+});
 
-  playAgainBtn.addEventListener('click', () => {
-    gameEngine(gameData);
-    round = 1;
-    hideElements(playAgainBtn, nextRoundBtn);
-    restartContent();
-  });
+playAgainBtn.addEventListener('click', () => {
+  model.gameEngine(gameData);
+  model.round = 1;
+  view.hideElements(playAgainBtn, nextRoundBtn);
+  view.showRounds();
+  view.showContent();
+});
 
+document.addEventListener('DOMContentLoaded', () => {
+  view.hideElements(checkAnswerBtn, nextRoundBtn, playAgainBtn);
+  view.showRounds();
+  answerNode.focus();
+  model.gameEngine(gameData);
 });

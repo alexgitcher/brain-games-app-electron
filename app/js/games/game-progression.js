@@ -2,10 +2,10 @@ const steps = [2, 3, 4, 5],
   progressionLength = 10;
 
 const gameData = () => {
-  const stepIndex = Math.round(generateNumber(3)),
+  const stepIndex = Math.round(model.generateNumber(3)),
     step = steps[stepIndex],
-    startNum = Math.ceil(generateNumber(100)),
-    hiddenNum = Math.round(generateNumber(9)),
+    startNum = Math.ceil(model.generateNumber(100)),
+    hiddenNum = Math.round(model.generateNumber(9)),
     progression = [];
 
   for (let i = 0; i < progressionLength - 1; i += 1) {
