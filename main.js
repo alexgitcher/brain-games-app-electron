@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
 
 let mainWindow;
 
@@ -8,7 +9,11 @@ const createWindow = () => {
       width: 800,
       height: 600,
       frame: false,
-      resizable: false
+      resizable: false,
+      webPreferences: {
+        preload: path.join(__dirname, './app/js/preload.js'),
+        enableRemoteModule: true
+      }
     }
   );
 
@@ -47,7 +52,7 @@ app.on('activate', () => {
 
 ipcMain.on('open-game-page', (event, gameId, gameTitle) => {
   mainWindow.gameId = gameId;
-  mainWindow.gameRule = mainWindow.gameRules[gameId]; 
+  mainWindow.gameRule = mainWindow.gameRules[gameId];
   mainWindow.gameTitle = gameTitle;
   mainWindow.loadFile('app/game.html');
 });
