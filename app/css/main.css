@@ -103,12 +103,15 @@ input {
   z-index: 1;
 }
 
+.btn__back,
+.btn__close  {
+  top: 10px;
+}
+
 .btn__back {
-  bottom: 10px;
   left: 10px;
 }
 
 .btn__close {
-  top: 10px;
   right: 10px;
 }
