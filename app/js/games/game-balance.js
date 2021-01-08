@@ -9,11 +9,11 @@ const getMiddlePart = (num) => {
 };
 
 const numBalance = (num) => {
-  const sortedNum = sortNum(num),
-    firstNum = Number(sortedNum[0]),
-    lastNum = Number(sortedNum[sortedNum.length - 1]),
-    middleNum = getMiddlePart(sortedNum),
-    diff = lastNum - firstNum;
+  const sortedNum = sortNum(num);
+  const firstNum = Number(sortedNum[0]);
+  const lastNum = Number(sortedNum[sortedNum.length - 1]);
+  const middleNum = getMiddlePart(sortedNum);
+  const diff = lastNum - firstNum;
 
   if (diff <= 1) return sortedNum;
 
@@ -23,9 +23,10 @@ const numBalance = (num) => {
 };
 
 const gameData = () => {
-  const num = Math.ceil(model.generateNumber(10000)),
-    question = num,
-    correctAnswer = numBalance(num);
+  const num = Math.ceil(model.generateNumber(10000));
+  const question = num;
+  const correctAnswer = numBalance(num);
+
   return {
     question,
     correctAnswer: correctAnswer.toString()

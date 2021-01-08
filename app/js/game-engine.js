@@ -1,9 +1,9 @@
-const answerNode = document.getElementById('answer'),
-  messageNode = document.getElementById('message'),
-  gameContent = document.getElementById('game-content'),
-  checkAnswerBtn = document.getElementById('check-answer'),
-  nextRoundBtn = document.getElementById('next-round'),
-  playAgainBtn = document.getElementById('play-again');
+const answerNode = document.getElementById('answer');
+const messageNode = document.getElementById('message');
+const gameContent = document.getElementById('game-content');
+const checkAnswerBtn = document.getElementById('check-answer');
+const nextRoundBtn = document.getElementById('next-round');
+const playAgainBtn = document.getElementById('play-again');
 
 const model = {
   round: 1,
@@ -13,12 +13,12 @@ const model = {
   generateNumber: (num) => Math.random() * num,
 
   gameEngine: (gameData) => {
-    const gameCondition = gameData(),
-      quest = gameCondition.question,
-      correctResult = gameCondition.correctAnswer;
+    const gameCondition = gameData();
+    const { question } = gameCondition;
+    const { correctAnswer } = gameCondition;
 
-    model.rightAnswer = correctResult;
-    view.showQuestion(quest);
+    model.rightAnswer = correctAnswer;
+    view.showQuestion(question);
   },
 
   checkAnswer: (answer, correctAnswer) => {
@@ -61,8 +61,8 @@ const view = {
   },
 
   showRounds: () => {
-    const currentRoundNode = document.getElementById('current-round'),
-      rounds = document.getElementById('rounds');
+    const currentRoundNode = document.getElementById('current-round');
+    const rounds = document.getElementById('rounds');
 
     currentRoundNode.textContent = model.round;
     rounds.textContent = model.maxRounds;
@@ -96,8 +96,8 @@ answerNode.addEventListener('keypress', (event) => {
 });
 
 answerNode.addEventListener('input', () => {
-  const value = answerNode.value,
-    valueLength = value.length;
+  const { value } = answerNode;
+  const valueLength = value.length;
 
   if (valueLength > 0) {
     checkAnswerBtn.style.display = 'inline-block';

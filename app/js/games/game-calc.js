@@ -12,11 +12,12 @@ const calc = (num1, num2, index) => {
 const operations = ['+', '-', '*'];
 
 const gameData = () => {
-  const num1 = Math.ceil(model.generateNumber(100)),
-    num2 = Math.ceil(model.generateNumber(100)),
-    index = Math.round(model.generateNumber(2)),
-    question = `${num1} ${operations[index]} ${num2}`,
-    correctAnswer = calc(num1, num2, index);
+  const num1 = Math.ceil(model.generateNumber(100));
+  const num2 = Math.ceil(model.generateNumber(100));
+  const index = Math.round(model.generateNumber(2));
+  const question = `${num1} ${operations[index]} ${num2}`;
+  const correctAnswer = calc(num1, num2, index);
+
   return {
     question,
     correctAnswer: correctAnswer.toString()
